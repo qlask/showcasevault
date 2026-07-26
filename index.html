@@ -234,6 +234,27 @@
   .card-meta span{display:flex;align-items:center;gap:5px;}
   .card-meta svg{width:12px;height:12px;flex-shrink:0;}
   .card-footer{margin-top:auto;padding-top:4px;}
+  .id-row{
+    display:flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);
+  }
+  .id-row .id-label{opacity:0.75;}
+  .id-row .id-value{color:var(--ink);font-weight:600;}
+  .copy-id-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:6px;border:1px solid var(--line);
+    background:var(--surface);color:var(--ink-soft);cursor:pointer;padding:0;
+    flex-shrink:0;transition:border-color .15s, color .15s, background .15s;
+  }
+  .copy-id-btn:hover{border-color:var(--ink);color:var(--ink);}
+  .copy-id-btn.copied{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-tint);}
+  .copy-id-btn svg{width:12px;height:12px;pointer-events:none;}
+  .detail-id-row{
+    display:flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:14.5px;color:var(--ink);
+  }
+  .detail-id-row .copy-id-btn{width:28px;height:28px;}
+  .detail-id-row .copy-id-btn svg{width:14px;height:14px;}
   .dl-btn{
     width:100%;background:var(--ink);color:#fff;border:none;border-radius:var(--radius-sm);
     padding:11px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;
@@ -399,6 +420,7 @@
         <div class="stat"><b id="stat-total-levels">0</b><span>total levels</span></div>
         <div class="stat"><b id="stat-total-creators">0</b><span>creators</span></div>
         <div class="stat"><b id="stat-total-formats">0</b><span>file formats</span></div>
+        <div class="stat"><b id="total-downloads" class="download-count">0</b><span>total downloads</span></div>
       </div>
     </section>
 
@@ -513,7 +535,7 @@ const LEVELS = [
     diff:"Easy Demon",
     gif:"https://i.imgur.com/rQlZE5s.png",
     file:"https://drive.google.com/file/d/1k-vDNXN7Ucn-genQrRKJJdpqvKYHu3t6/view?usp=sharing",
-    description:"A showcase of an Easy Demon collab from iLsane and arcania."
+    description:"A showcase of an Easy Demon collab from iLsane and arcania.",
     id:"56455318"
   },
   {
@@ -541,7 +563,7 @@ const LEVELS = [
     file:"https://drive.google.com/file/d/1OYA1mvqoA9gw4Z5IQtWDuR1f0z7R2HtY/view?usp=drive_link",
     description:"An Easy Demon by yyene.",
     id:"145216304"
-  },
+  }
 ];
 
 /* =====================================================================
@@ -567,7 +589,7 @@ const CHANGELOG = [
     tag:"changed",
     title:"Vault launched",
     body:"Initial release of Showcase Vault with Error and Machina Deluxe."
-  },
+  }
 ];
 
 const badgeClass = {gdr:"badge-gdr", gdr2:"badge-gdr2", gmd:"badge-gmd"};
@@ -665,17 +687,12 @@ function getTotalDownloads() {
 }
 function updateTotalDownloadsDisplay() {
   const totalEl = document.getElementById('total-downloads');
+  if(!totalEl) return;
   const total = getTotalDownloads();
   totalEl.textContent = total.toLocaleString();
   totalEl.classList.remove('bump');
   void totalEl.offsetWidth;
   totalEl.classList.add('bump');
-}
-function trackDownload(slug) {
-  downloadCounts[slug] = (downloadCounts[slug] || 0) + 1;
-  saveDownloadCounts(downloadCounts);
-  updateTotalDownloadsDisplay();
-  return downloadCounts[slug];
 }
 
 /* ---------------------------------------------------------------------
@@ -692,6 +709,12 @@ function downloadIcon(){
 }
 function backIcon(){
   return `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>`;
+}
+function clipboardIcon(){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/></svg>`;
+}
+function checkIcon(){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`;
 }
 
 /* ---------------------------------------------------------------------
@@ -725,8 +748,15 @@ function renderGrid(list){
             ${downloadIcon()} ${(downloadCounts[lv.slug] || 0).toLocaleString()} downloads
           </span>
         </div>
+        <div class="id-row" onclick="event.stopPropagation()">
+          <span class="id-label">ID:</span>
+          <span class="id-value">${lv.id}</span>
+          <button class="copy-id-btn" data-copy-id="${lv.id}" type="button" aria-label="Copy level ID ${lv.id}" title="Copy ID">
+            ${clipboardIcon()}
+          </button>
+        </div>
         <div class="card-footer">
-          <a class="dl-btn" href="${lv.file}" data-slug="${lv.slug}" data-name="${lv.name}" download>
+          <a class="dl-btn" href="${lv.file}" data-slug="${lv.slug}" data-name="${lv.name}" download target="_blank" rel="noopener">
             ${downloadIcon()}
             Download .${lv.type}
           </a>
@@ -737,12 +767,12 @@ function renderGrid(list){
 }
 
 /* Card click -> go to detail page. Download button inside the card
-   stops propagation so it still triggers a download, not navigation. */
+   stops propagation so it only triggers a download, not navigation. */
 document.getElementById('level-grid').addEventListener('click', e=>{
   const dlBtn = e.target.closest('.dl-btn');
   if(dlBtn){
     e.stopPropagation();
-    return; // handled by the dedicated download listener below
+    return; // handled by the delegated download listener below
   }
   const card = e.target.closest('.card');
   if(card) goTo('#/' + card.dataset.slug);
@@ -795,23 +825,15 @@ function showToast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(()=> toast.classList.remove('show'), 2400);
 }
-function bindDownloadButtons(root){
-  root.querySelectorAll('.dl-btn').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const slug = btn.dataset.slug;
-      const name = btn.dataset.name;
-      const newCount = trackDownload(slug);
-      showToast(`Downloading "${name}"… (${newCount.toLocaleString()} total downloads for this level)`);
-      document.querySelectorAll(`.level-download-count[data-level="${slug}"]`).forEach(el=>{
-        el.innerHTML = `${downloadIcon()} ${newCount.toLocaleString()} downloads`;
-      });
-      if(btn.getAttribute('href') === '#'){
-        e.preventDefault(); // placeholder — swap `file` in LEVELS with a real URL to enable this
-      }
-    });
-  });
+
+/* Single delegated listener handles downloads everywhere (grid + detail page) */
+function trackDownload(slug) {
+  downloadCounts[slug] = (downloadCounts[slug] || 0) + 1;
+  saveDownloadCounts(downloadCounts);
+  updateTotalDownloadsDisplay();
+  return downloadCounts[slug];
 }
-/* delegate once at the document level so it works for grid + detail page */
+
 document.addEventListener('click', e=>{
   const btn = e.target.closest('.dl-btn');
   if(!btn) return;
@@ -822,9 +844,55 @@ document.addEventListener('click', e=>{
   document.querySelectorAll(`.level-download-count[data-level="${slug}"]`).forEach(el=>{
     el.innerHTML = `${downloadIcon()} ${newCount.toLocaleString()} downloads`;
   });
+  document.querySelectorAll(`.level-download-count-b[data-level="${slug}"]`).forEach(el=>{
+    el.textContent = newCount.toLocaleString();
+  });
   if(btn.getAttribute('href') === '#'){
-    e.preventDefault();
+    e.preventDefault(); // placeholder — swap `file` in LEVELS with a real URL to enable this
   }
+});
+
+/* ---------------------------------------------------------------------
+   COPY LEVEL ID
+   --------------------------------------------------------------------- */
+function copyIdToClipboard(btn, id){
+  const restore = () => {
+    btn.innerHTML = clipboardIcon();
+    btn.classList.remove('copied');
+  };
+  const markCopied = () => {
+    btn.innerHTML = checkIcon();
+    btn.classList.add('copied');
+    clearTimeout(btn._copyTimer);
+    btn._copyTimer = setTimeout(restore, 1400);
+  };
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(id).then(markCopied).catch(()=>{
+      fallbackCopy(id);
+      markCopied();
+    });
+  } else {
+    fallbackCopy(id);
+    markCopied();
+  }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) { /* no-op */ }
+  document.body.removeChild(ta);
+}
+
+document.addEventListener('click', e=>{
+  const copyBtn = e.target.closest('.copy-id-btn');
+  if(!copyBtn) return;
+  e.stopPropagation();
+  copyIdToClipboard(copyBtn, copyBtn.dataset.copyId);
 });
 
 /* ---------------------------------------------------------------------
@@ -877,13 +945,19 @@ function renderDetail(slug){
         <div class="card-creator">by ${lv.creator}</div>
         <h1>${lv.name}</h1>
         <span class="detail-diff mono">${lv.diff}</span>
+        <div class="detail-id-row">
+          <span class="id-label">Level ID: <span class="id-value">${lv.id}</span></span>
+          <button class="copy-id-btn" data-copy-id="${lv.id}" type="button" aria-label="Copy level ID ${lv.id}" title="Copy ID">
+            ${clipboardIcon()}
+          </button>
+        </div>
         <div class="detail-stat-row">
           <div><b>${lv.size}</b><span>FILE SIZE</span></div>
           <div><b>${lv.objects}</b><span>OBJECTS</span></div>
           <div><b class="level-download-count-b" data-level="${lv.slug}">${(downloadCounts[lv.slug]||0).toLocaleString()}</b><span>DOWNLOADS</span></div>
           <div><b>.${lv.type.toUpperCase()}</b><span>FORMAT</span></div>
         </div>
-        <a class="dl-btn" style="width:auto;padding:13px 24px;" href="${lv.file}" data-slug="${lv.slug}" data-name="${lv.name}" download>
+        <a class="dl-btn" style="width:auto;padding:13px 24px;" href="${lv.file}" data-slug="${lv.slug}" data-name="${lv.name}" download target="_blank" rel="noopener">
           ${downloadIcon()} Download .${lv.type}
         </a>
       </div>
@@ -900,17 +974,6 @@ function renderDetail(slug){
   `;
   document.getElementById('detail-back-btn').addEventListener('click', ()=> goTo('#browse'));
 }
-
-/* also update the "b" style download counter used in the detail page */
-const _origBind = document.addEventListener;
-document.addEventListener('click', e=>{
-  const btn = e.target.closest('.dl-btn');
-  if(!btn) return;
-  const slug = btn.dataset.slug;
-  document.querySelectorAll(`.level-download-count-b[data-level="${slug}"]`).forEach(el=>{
-    el.textContent = (downloadCounts[slug]||0).toLocaleString();
-  });
-});
 
 /* ---------------------------------------------------------------------
    MAILTO — the ONLY way anyone outside the code can propose a level
