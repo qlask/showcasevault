@@ -141,6 +141,18 @@
   .stat:last-child{border-right:none;}
   .stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;}
   .stat span{font-size:12.5px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
+  .stat .download-count {
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+  }
+  .stat .download-count.bump {
+    animation: countBump 0.35s ease-out;
+  }
+  @keyframes countBump {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.25); color: var(--accent); }
+    100% { transform: scale(1); color: inherit; }
+  }
 
   /* ---------- filter bar ---------- */
   .filter-bar{
@@ -304,7 +316,7 @@
     <div class="stats">
       <div class="stat"><b>1,248</b><span>files hosted</span></div>
       <div class="stat"><b>612</b><span>creators</span></div>
-      <div class="stat"><b>38.4k</b><span>downloads</span></div>
+      <div class="stat"><b id="total-downloads" class="download-count">38,410</b><span>downloads</span></div>
       <div class="stat"><b>3</b><span>file formats</span></div>
     </div>
   </section>
@@ -404,6 +416,55 @@ const LEVELS = [
 
 const badgeClass = {gdr:"badge-gdr", gdr2:"badge-gdr2", gmd:"badge-gmd"};
 
+// Initialize download counts from localStorage or start at 0
+function getDownloadCounts() {
+  try {
+    const stored = localStorage.getItem('showcase_vault_downloads');
+    return stored ? JSON.parse(stored) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveDownloadCounts(counts) {
+  try {
+    localStorage.setItem('showcase_vault_downloads', JSON.stringify(counts));
+  } catch (e) {
+    // localStorage might be full or unavailable
+  }
+}
+
+let downloadCounts = getDownloadCounts();
+
+// Calculate total downloads
+function getTotalDownloads() {
+  return Object.values(downloadCounts).reduce((sum, count) => sum + count, 0);
+}
+
+// Update the total downloads display
+function updateTotalDownloadsDisplay() {
+  const totalEl = document.getElementById('total-downloads');
+  const total = getTotalDownloads();
+  totalEl.textContent = total.toLocaleString();
+  
+  // Add bump animation
+  totalEl.classList.remove('bump');
+  void totalEl.offsetWidth; // Trigger reflow
+  totalEl.classList.add('bump');
+}
+
+// Track a download for a specific level
+function trackDownload(levelName) {
+  if (!downloadCounts[levelName]) {
+    downloadCounts[levelName] = 1;
+  } else {
+    downloadCounts[levelName]++;
+  }
+  saveDownloadCounts(downloadCounts);
+  updateTotalDownloadsDisplay();
+  return downloadCounts[levelName];
+}
+
 function fileIcon(){
   return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M13 2v7h7"/></svg>`;
 }
@@ -435,6 +496,10 @@ function renderGrid(list){
         <div class="card-meta">
           <span>${fileIcon()} ${lv.size}</span>
           <span>${cubeIcon()} ${lv.objects} objects</span>
+          <span class="level-download-count" data-level="${lv.name}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            ${(downloadCounts[lv.name] || 0).toLocaleString()} downloads
+          </span>
         </div>
         <div class="card-footer">
           <a class="dl-btn" href="${lv.file}" data-name="${lv.name}" download>
@@ -447,6 +512,7 @@ function renderGrid(list){
   `).join('');
 }
 renderGrid(LEVELS);
+updateTotalDownloadsDisplay();
 
 /* filtering */
 let activeFilter = 'all';
@@ -458,6 +524,9 @@ function applyFilters(){
     return matchesType && matchesQuery;
   });
   renderGrid(filtered);
+  
+  // Re-attach download counts to the newly rendered grid
+  updateLevelDownloadCounts();
 }
 document.getElementById('chip-row').addEventListener('click', e=>{
   const chip = e.target.closest('.chip');
@@ -472,6 +541,18 @@ document.getElementById('search-input').addEventListener('input', e=>{
   applyFilters();
 });
 
+// Update individual level download counts in the grid
+function updateLevelDownloadCounts() {
+  document.querySelectorAll('.level-download-count').forEach(el => {
+    const levelName = el.dataset.level;
+    const count = downloadCounts[levelName] || 0;
+    el.innerHTML = `
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+      ${count.toLocaleString()} downloads
+    `;
+  });
+}
+
 /* toast on download click (mock) */
 const toast = document.getElementById('toast');
 let toastTimer;
@@ -484,7 +565,15 @@ function showToast(msg){
 document.getElementById('level-grid').addEventListener('click', e=>{
   const btn = e.target.closest('.dl-btn');
   if(!btn) return;
-  showToast(`Downloading "${btn.dataset.name}"…`);
+  
+  const levelName = btn.dataset.name;
+  const newCount = trackDownload(levelName);
+  
+  showToast(`Downloading "${levelName}"… (${newCount.toLocaleString()} total downloads for this level)`);
+  
+  // Update the individual level download count in the grid
+  updateLevelDownloadCounts();
+  
   if(btn.getAttribute('href') === '#'){
     e.preventDefault(); // placeholder — swap `file` in LEVELS with a real URL to enable this
   }
