@@ -345,6 +345,10 @@
   .detail-section{max-width:720px;margin-bottom:34px;}
   .detail-section h2{font-size:18px;margin:0 0 10px;}
   .detail-section p{color:var(--ink-soft);font-size:14.5px;line-height:1.65;margin:0;}
+  .detail-upload-date{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink-soft);
+    margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);
+  }
   .detail-not-found{padding:100px 20px;text-align:center;}
   .detail-not-found h1{font-size:26px;margin-bottom:10px;}
   .detail-not-found p{color:var(--ink-soft);margin-bottom:26px;}
@@ -521,6 +525,9 @@
    Keep it lowercase, no spaces (use hyphens). It must be unique.
 
    `description` is optional long-form info shown on the detail page.
+   `uploadDate` is optional, format "YYYY-MM-DD" — shown under the
+   Technical name section on the detail page. Leave it out (or "")
+   if you don't know the upload date.
    Adding/editing/removing entries here is the only thing needed —
    the grid, search, filters, and detail pages update automatically.
    ===================================================================== */
@@ -536,7 +543,8 @@ const LEVELS = [
     gif:"https://i.imgur.com/rQlZE5s.png",
     file:"https://drive.google.com/file/d/1k-vDNXN7Ucn-genQrRKJJdpqvKYHu3t6/view?usp=sharing",
     description:"A showcase of an Easy Demon collab from iLsane and arcania.",
-    id:"56455318"
+    id:"56455318",
+    uploadDate:"2024-03-12"
   },
   {
     slug:"machina-deluxe",
@@ -549,7 +557,8 @@ const LEVELS = [
     gif:"https://i.imgur.com/PjV3Zhw.png",
     file:"https://drive.google.com/file/d/1f4c2cKLhPKoa-4yT_CFegqWATEh4ckxp/view?usp=sharing",
     description:"bro i used this song",
-    id:"126502545"
+    id:"126502545",
+    uploadDate:"2024-06-01"
   },
   {
     slug:"blackpill",
@@ -562,7 +571,8 @@ const LEVELS = [
     gif:"https://i.imgur.com/fbpJsGV.png",
     file:"https://drive.google.com/file/d/1OYA1mvqoA9gw4Z5IQtWDuR1f0z7R2HtY/view?usp=drive_link",
     description:"An Easy Demon by yyene.",
-    id:"145216304"
+    id:"145216304",
+    uploadDate:"2025-01-20"
   }
 ];
 
@@ -970,6 +980,7 @@ function renderDetail(slug){
     <div class="detail-section">
       <h2>Technical name</h2>
       <p class="mono">${lv.slug}</p>
+      ${lv.uploadDate ? `<p class="detail-upload-date">Uploaded ${formatDate(lv.uploadDate)}</p>` : ''}
     </div>
   `;
   document.getElementById('detail-back-btn').addEventListener('click', ()=> goTo('#browse'));
