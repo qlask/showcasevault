@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Showcase Vault — Geometry Dash level file archive</title>
+<meta name="description" content="Download .gdr, .gdr2 and .gmd level files from showcase creators. Auto-generated previews, no accounts, no bloat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f4f2;
+    --surface:#ffffff;
+    --ink:#17181a;
+    --ink-soft:#5c5f63;
+    --line:#e4e4e0;
+    --accent:#00c9b3;
+    --accent-ink:#00443c;
+    --accent-tint:#e3faf6;
+    --coral:#ff5f6d;
+    --coral-ink:#ffffff;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:9px;
+    --shadow-sm:0 1px 2px rgba(23,24,26,0.04);
+    --shadow-md:0 6px 20px rgba(23,24,26,0.07);
+    --shadow-lg:0 20px 60px rgba(23,24,26,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk',sans-serif;
+    letter-spacing:-0.02em;
+  }
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--accent);color:#fff;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- shell ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  nav.topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(244,244,242,0.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1180px;margin:0 auto;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:700;font-size:17px;
+  }
+  .brand-mark{
+    width:30px;height:30px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),#00a893);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-sm);
+    flex-shrink:0;
+  }
+  .brand-mark svg{width:16px;height:16px;}
+  .nav-links{display:flex;gap:28px;align-items:center;font-size:14.5px;font-weight:500;color:var(--ink-soft);}
+  .nav-links a{text-decoration:none;transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{
+    background:var(--ink);color:#fff;padding:9px 16px;border-radius:100px;
+    font-size:14px;font-weight:600;text-decoration:none;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+  .nav-mobile-hide{display:flex;}
+  @media (max-width:720px){
+    .nav-mobile-hide{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{padding:76px 0 56px;text-align:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent-tint);color:var(--accent-ink);
+    padding:6px 14px;border-radius:100px;
+    font-size:13px;font-weight:600;margin-bottom:22px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .hero h1{
+    font-size:clamp(34px,5.6vw,58px);
+    line-height:1.04;
+    margin:0 0 18px;
+    font-weight:700;
+  }
+  .hero h1 .accent-word{color:var(--accent-ink);position:relative;}
+  .hero p.sub{
+    font-size:17px;color:var(--ink-soft);max-width:520px;margin:0 auto 36px;
+    line-height:1.55;
+  }
+  .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    border:none;cursor:pointer;font-family:'Inter',sans-serif;
+    font-weight:600;font-size:15px;padding:14px 26px;border-radius:100px;
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--ink);color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-coral{background:var(--coral);color:var(--coral-ink);}
+  .btn-coral:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,95,109,0.35);}
+  .btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  /* stat strip */
+  .stats{
+    display:flex;justify-content:center;gap:0;margin-top:56px;
+    border-top:1px solid var(--line);
+  }
+  .stat{
+    flex:1;max-width:180px;text-align:center;padding:22px 12px 0;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;}
+  .stat span{font-size:12.5px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- filter bar ---------- */
+  .filter-bar{
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    padding:28px 0 20px;
+  }
+  .search-box{
+    flex:1;min-width:220px;position:relative;
+  }
+  .search-box input{
+    width:100%;padding:13px 16px 13px 42px;border-radius:100px;
+    border:1px solid var(--line);background:var(--surface);
+    font-family:'Inter',sans-serif;font-size:14.5px;color:var(--ink);
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-tint);outline:none;}
+  .search-box svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink-soft);}
+  .chip-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{
+    padding:9px 15px;border-radius:100px;border:1px solid var(--line);
+    background:var(--surface);font-size:13.5px;font-weight:600;cursor:pointer;
+    color:var(--ink-soft);transition:all .15s;font-family:'JetBrains Mono',monospace;
+  }
+  .chip:hover{border-color:var(--ink);color:var(--ink);}
+  .chip.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  /* ---------- grid ---------- */
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
+    gap:20px;padding-bottom:80px;
+  }
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent;}
+  .card-preview{
+    aspect-ratio:16/10;position:relative;overflow:hidden;background:#0f1113;
+  }
+  .card-preview img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:saturate(1.05);
+  }
+  .card-preview .badge-type{
+    position:absolute;top:10px;left:10px;
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500;
+    padding:5px 10px;border-radius:100px;backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.25);
+  }
+  .badge-gdr{background:rgba(0,201,179,0.85);color:#00201c;}
+  .badge-gdr2{background:rgba(255,193,7,0.88);color:#2b1e00;}
+  .badge-gmd{background:rgba(255,95,109,0.85);color:#380007;}
+  .card-preview .badge-diff{
+    position:absolute;top:10px;right:10px;
+    background:rgba(15,17,19,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    color:#fff;font-size:11px;font-weight:600;padding:5px 9px;border-radius:100px;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .card-body{padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .card-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;line-height:1.25;}
+  .card-creator{font-size:13px;color:var(--ink-soft);margin-top:-4px;}
+  .card-meta{
+    display:flex;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;color:var(--ink-soft);border-top:1px dashed var(--line);
+    padding-top:10px;margin-top:2px;
+  }
+  .card-meta span{display:flex;align-items:center;gap:5px;}
+  .card-meta svg{width:12px;height:12px;flex-shrink:0;}
+  .card-footer{margin-top:auto;padding-top:4px;}
+  .dl-btn{
+    width:100%;background:var(--ink);color:#fff;border:none;border-radius:var(--radius-sm);
+    padding:11px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;
+    display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;
+    text-decoration:none;transition:background .15s;
+  }
+  .dl-btn:hover{background:var(--accent-ink);}
+
+  /* ---------- upload section ---------- */
+  .upload-section{
+    background:var(--ink);border-radius:28px;margin:20px 0 90px;
+    padding:56px 40px;color:#fff;position:relative;overflow:hidden;
+  }
+  .upload-section::before{
+    content:'';position:absolute;top:-120px;right:-120px;width:340px;height:340px;
+    background:radial-gradient(circle,rgba(0,201,179,0.35),transparent 70%);
+  }
+  .curation-grid{position:relative;max-width:560px;}
+  .upload-copy .eyebrow{background:rgba(0,201,179,0.18);color:#7ffbe9;}
+  .upload-copy h2{font-size:clamp(26px,3.4vw,36px);margin:14px 0 14px;line-height:1.12;}
+  .upload-copy p{color:#c7c9cc;font-size:15px;line-height:1.6;max-width:460px;margin:0 0 22px;}
+  .upload-copy ul{list-style:none;padding:0;margin:0 0 26px;display:flex;flex-direction:column;gap:10px;}
+  .upload-copy li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#dcdedf;}
+  .upload-copy li svg{flex-shrink:0;margin-top:2px;color:#7ffbe9;}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:36px 0 48px;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  footer .brand{font-size:14.5px;}
+  footer p{color:var(--ink-soft);font-size:13px;margin:0;}
+  .footer-links{display:flex;gap:20px;font-size:13.5px;color:var(--ink-soft);}
+  .footer-links a{text-decoration:none;}
+  .footer-links a:hover{color:var(--ink);}
+
+  /* toast */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);
+    background:var(--ink);color:#fff;padding:13px 22px;border-radius:100px;
+    font-size:14px;font-weight:500;box-shadow:var(--shadow-lg);
+    transition:transform .3s ease;z-index:100;display:flex;align-items:center;gap:8px;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:560px){
+    .hero{padding:52px 0 40px;}
+    .stats{flex-wrap:wrap;}
+    .stat{border-right:none;border-bottom:1px solid var(--line);flex:1 1 45%;padding-bottom:16px;}
+    .upload-section{padding:36px 20px;border-radius:20px;}
+    .footer-inner{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 20L12 4L20 20L12 15L4 20Z" fill="#fff"/></svg>
+      </div>
+      Showcase Vault
+    </div>
+    <div class="nav-links nav-mobile-hide">
+      <a href="#browse">Browse</a>
+      <a href="#" id="mailto-nav">Request showcase</a>
+    </div>
+    <button class="nav-cta" id="request-showcase-nav-btn" type="button">
+      Request a showcase
+    </button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>.gdr · .gdr2 · .gmd</span>
+    <h1>Level files, straight<br>from the <span class="accent-word">showcase</span>.</h1>
+    <p class="sub">Download raw Geometry Dash level files from showcase creators. Auto‑generated preview GIFs, real object counts, zero accounts.</p>
+    <div class="hero-actions">
+      <a href="#browse" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v13M6 12l6 6 6-6"/></svg>
+        Browse the vault
+      </a>
+      <button class="btn btn-coral" id="request-showcase-hero-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+        Request a Level Showcase
+      </button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>1,248</b><span>files hosted</span></div>
+      <div class="stat"><b>612</b><span>creators</span></div>
+      <div class="stat"><b>38.4k</b><span>downloads</span></div>
+      <div class="stat"><b>3</b><span>file formats</span></div>
+    </div>
+  </section>
+
+  <section id="browse">
+    <div class="filter-bar">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="search-input" placeholder="Search level or creator name…">
+      </div>
+      <div class="chip-row" id="chip-row">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="gdr">.gdr</button>
+        <button class="chip" data-filter="gdr2">.gdr2</button>
+        <button class="chip" data-filter="gmd">.gmd</button>
+      </div>
+    </div>
+
+    <div class="grid" id="level-grid"></div>
+  </section>
+
+  <section class="upload-section" id="about-curation">
+    <div class="curation-grid">
+      <div class="upload-copy">
+        <span class="eyebrow"><span class="eyebrow-dot" style="background:#7ffbe9;"></span>how the vault is built</span>
+        <h2>Every file here was added by hand — there's no public upload.</h2>
+        <p>This isn't an open dropbox. Levels are hand-picked and added directly to the site's source by the maintainer, so every download is something a real person vetted first.</p>
+        <ul>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            No accounts, no open upload form, no spam
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            Preview GIF and object count are generated when a file is added
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            Want your level here? Send a showcase request below
+          </li>
+        </ul>
+        <button class="btn btn-primary" style="background:var(--accent);color:#00201c;margin-top:6px;" id="request-showcase-section-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+          Request a Level Showcase
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="brand">
+      <div class="brand-mark" style="width:24px;height:24px;">
+        <svg viewBox="0 0 24 24" fill="none" width="13" height="13"><path d="M4 20L12 4L20 20L12 15L4 20Z" fill="#fff"/></svg>
+      </div>
+      Showcase Vault
+    </div>
+    <p>Fan-made archive. Not affiliated with RobTop Games.</p>
+    <div class="footer-links">
+      <a href="#browse">Browse</a>
+      <a href="#about-curation">How it works</a>
+      <a href="#" id="mailto-footer">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Added to your download queue</div>
+
+<script>
+/* =====================================================================
+   LEVEL VAULT — edit this array to add, remove, or update levels.
+   This is the ONLY place levels come from. There is no upload form,
+   no database, and no public submission path on this site — the
+   maintainer adds every entry here directly in the source.
+
+   To add a level, copy the object shape below and fill in your own
+   values. `gif` should point to your generated preview (hosted image
+   or GIF URL). `file` should point to the actual downloadable
+   .gdr / .gdr2 / .gmd file once you have real file hosting wired up.
+   ===================================================================== */
+const LEVELS = [
+  {name:"Nine Circles", creator:"Riot & more", type:"gdr", size:"482 KB", objects:"41,208", diff:"Extreme", gif:"https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=500&q=60", file:"#"},
+  {name:"Bloodbath", creator:"Riot", type:"gdr2", size:"1.2 MB", objects:"63,441", diff:"Extreme", gif:"https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500&q=60", file:"#"},
+  {name:"Sonic Wave", creator:"Cyclic", type:"gmd", size:"968 KB", objects:"52,190", diff:"Extreme", gif:"https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=500&q=60", file:"#"},
+  {name:"Slaughterhouse", creator:"KrmaL", type:"gdr", size:"1.4 MB", objects:"71,905", diff:"Extreme", gif:"https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=500&q=60", file:"#"},
+  {name:"Tartarus", creator:"Riot", type:"gdr2", size:"1.1 MB", objects:"58,332", diff:"Extreme", gif:"https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?w=500&q=60", file:"#"},
+  {name:"Cataclysm", creator:"Ggb0y", type:"gmd", size:"733 KB", objects:"39,880", diff:"Insane", gif:"https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?w=500&q=60", file:"#"},
+  {name:"Silent Clubstep", creator:"Ryamu", type:"gdr", size:"390 KB", objects:"24,110", diff:"Insane", gif:"https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=500&q=60", file:"#"},
+  {name:"The Golden", creator:"Aeon Air", type:"gdr2", size:"1.6 MB", objects:"88,204", diff:"Extreme", gif:"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&q=60", file:"#"},
+  {name:"Acheron", creator:"iCarlyy", type:"gmd", size:"1.3 MB", objects:"70,552", diff:"Extreme", gif:"https://images.unsplash.com/photo-1487621167305-5d248087c724?w=500&q=60", file:"#"},
+  {name:"Nhelv", creator:"Bird", type:"gdr", size:"612 KB", objects:"33,940", diff:"Insane", gif:"https://images.unsplash.com/photo-1451188502541-13943edb6acb?w=500&q=60", file:"#"},
+  {name:"Zodiac", creator:"Riot", type:"gdr2", size:"902 KB", objects:"47,610", diff:"Extreme", gif:"https://images.unsplash.com/photo-1465101162946-4377e57745c3?w=500&q=60", file:"#"},
+  {name:"Crimson Planet", creator:"Aquatias", type:"gmd", size:"1.0 MB", objects:"55,003", diff:"Extreme", gif:"https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=500&q=60", file:"#"},
+];
+
+const badgeClass = {gdr:"badge-gdr", gdr2:"badge-gdr2", gmd:"badge-gmd"};
+
+function fileIcon(){
+  return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M13 2v7h7"/></svg>`;
+}
+function cubeIcon(){
+  return `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+}
+
+function renderGrid(list){
+  const grid = document.getElementById('level-grid');
+  if(!list.length){
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-soft);">
+      <p style="font-family:'Space Grotesk',sans-serif;font-size:17px;color:var(--ink);margin-bottom:6px;">No files match that search</p>
+      <p style="font-size:14px;">Try a different name, or browse all formats.</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = list.map(lv => `
+    <article class="card">
+      <div class="card-preview">
+        <img src="${lv.gif}" alt="Preview of ${lv.name}" loading="lazy">
+        <span class="badge-type ${badgeClass[lv.type]}">.${lv.type}</span>
+        <span class="badge-diff">${lv.diff}</span>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-title">${lv.name}</div>
+          <div class="card-creator">by ${lv.creator}</div>
+        </div>
+        <div class="card-meta">
+          <span>${fileIcon()} ${lv.size}</span>
+          <span>${cubeIcon()} ${lv.objects} objects</span>
+        </div>
+        <div class="card-footer">
+          <a class="dl-btn" href="${lv.file}" data-name="${lv.name}" download>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download .${lv.type}
+          </a>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+renderGrid(LEVELS);
+
+/* filtering */
+let activeFilter = 'all';
+let query = '';
+function applyFilters(){
+  const filtered = LEVELS.filter(lv=>{
+    const matchesType = activeFilter === 'all' || lv.type === activeFilter;
+    const matchesQuery = (lv.name + ' ' + lv.creator).toLowerCase().includes(query.toLowerCase());
+    return matchesType && matchesQuery;
+  });
+  renderGrid(filtered);
+}
+document.getElementById('chip-row').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  activeFilter = chip.dataset.filter;
+  applyFilters();
+});
+document.getElementById('search-input').addEventListener('input', e=>{
+  query = e.target.value;
+  applyFilters();
+});
+
+/* toast on download click (mock) */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toast.classList.remove('show'), 2400);
+}
+document.getElementById('level-grid').addEventListener('click', e=>{
+  const btn = e.target.closest('.dl-btn');
+  if(!btn) return;
+  showToast(`Downloading "${btn.dataset.name}"…`);
+  if(btn.getAttribute('href') === '#'){
+    e.preventDefault(); // placeholder — swap `file` in LEVELS with a real URL to enable this
+  }
+});
+
+/* mailto request showcase — the ONLY way anyone outside the code can propose a level */
+const MAILTO = 'mailto:showcase@example.com?subject=' + encodeURIComponent('Level Showcase Request') + '&body=' + encodeURIComponent('Level name:\nCreator:\nFile type (.gdr / .gdr2 / .gmd):\nYouTube/video link (if any):\n\nWhy this level deserves a showcase:\n');
+
+['mailto-nav','request-showcase-nav-btn','request-showcase-hero-btn','request-showcase-section-btn','mailto-footer']
+  .forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('click', e=>{ e.preventDefault(); window.location.href = MAILTO; });
+  });
+</script>
+</body>
+</html>
