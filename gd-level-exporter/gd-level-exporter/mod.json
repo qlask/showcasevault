@@ -1,0 +1,36 @@
+{
+    "geode": "4.0.0",
+    "gd": {
+        "win": "2.2074",
+        "android": "2.2074",
+        "mac": "2.2074"
+    },
+    "version": "v1.0.0",
+    "id": "com.tuusuario.levelexporter",
+    "name": "Level Exporter",
+    "developer": "TuUsuario",
+    "description": "Presiona E en un nivel para exportar sus metadatos a .db, .txt y .json",
+    "early-load": false,
+    "dependencies": [],
+    "resources": {
+        "spritesheets": {},
+        "files": []
+    },
+    "settings": {
+        "export-key": {
+            "name": "Tecla de exportacion",
+            "description": "Tecla para exportar el nivel actual (por defecto E)",
+            "type": "string",
+            "default": "E"
+        },
+        "export-format": {
+            "name": "Formatos de exportacion",
+            "description": "A cuales formatos exportar",
+            "type": "string",
+            "default": "db,txt,json",
+            "control": {
+                "input": "string"
+            }
+        }
+    }
+}
